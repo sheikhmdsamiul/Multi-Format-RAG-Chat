@@ -4,9 +4,10 @@ from docx import Document
 from bangla_pdf_ocr import process_pdf
 from PIL import Image
 from pytesseract import image_to_string
+from main.server.api import UploadFile
 
 
-def extract_text_from_file(file_path):
+def extract_text_from_file(file_path: bytes):
     if not os.path.exists(file_path):
         return "Error: File not found."
 
@@ -27,21 +28,20 @@ def extract_text_from_file(file_path):
        
        
        
-def extract_from_pdf(file):
+def extract_from_pdf(file_path):
     """Extract text from PDF file using OCR"""
-    if file is None:
+    if file_path is None:
         return ""  
       
     try:
         # Extract text using OCR
-        extracted_text = process_pdf(file, language="ben+eng")
+        extracted_text = process_pdf(file_path, language="ben+eng")
         return extracted_text if extracted_text else ""
         
     except Exception as e:
-        print(f"Error processing PDF file '{file.name}': {str(e)}")
+        print(f"Error processing PDF file '{file_path.name}': {str(e)}")
         return ""
     
-
 
 
 def extract_from_docx(file_path):
@@ -74,6 +74,8 @@ def extract_from_txt(file_path):
     except Exception as e:
         print(f"Error processing TXT file '{file_path}': {str(e)}")
         return ""
+
+
 
 def extract_from_db(file_path):
     """Extract text from SQLite database file"""
