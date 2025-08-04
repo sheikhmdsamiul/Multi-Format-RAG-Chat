@@ -28,5 +28,10 @@ ragenv/
 *.db
 *.sqlite3
 uploads/
+vector_store/
 *.zip
+temp/
+*.png
+
+
 
