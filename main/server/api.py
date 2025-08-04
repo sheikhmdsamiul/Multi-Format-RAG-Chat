@@ -1,7 +1,9 @@
 import shutil
 from pathlib import Path
 from fastapi import FastAPI, File, UploadFile, HTTPException
+from langchain_huggingface import HuggingFaceEmbeddings
 from main.modules.document_handler import extract_text_from_file
+from main.modules.process_vector_store import preprocess_text, semantic_text_splitter, get_vector_store
 
 
 app = FastAPI()
@@ -30,10 +32,18 @@ async def create_upload_file(file: UploadFile = File(...)):
 
     try:
         extracted_text = extract_text_from_file(str(file_path))
-        if not extracted_text:
-            raise HTTPException(status_code=400, detail="No text extracted from the file")
+
+        cleaned_text = preprocess_text(extracted_text)
+
+        #chunked_text = semantic_text_splitter(cleaned_text)
+        vector_store = get_vector_store(cleaned_text)
+
+        retriver = vector_store.as_retriever(search_kwargs={"k": 1})
+        invoke = retriver.invoke("What is the content of the uploaded file?")
+    
+
+        
+        return invoke
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing file: {str(e)}")
-
-    return extracted_text
