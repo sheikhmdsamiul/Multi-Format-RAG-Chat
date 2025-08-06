@@ -4,7 +4,6 @@ from docx import Document
 from bangla_pdf_ocr import process_pdf
 from PIL import Image
 from pytesseract import image_to_string
-from main.server.api import UploadFile
 
 
 def extract_text_from_file(file_path: bytes):

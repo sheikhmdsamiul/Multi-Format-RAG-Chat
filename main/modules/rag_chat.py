@@ -6,11 +6,11 @@ from langchain.chains import create_history_aware_retriever
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
-from main.modules.process_vector_store import get_vector_store
 from langchain_community.cross_encoders import HuggingFaceCrossEncoder
 from langchain.retrievers import ContextualCompressionRetriever
 from langchain.retrievers.document_compressors import CrossEncoderReranker
 from langchain_community.cross_encoders import HuggingFaceCrossEncoder
+from main.modules.process_vector_store import get_vector_store
 
 
 load_dotenv()
@@ -72,7 +72,8 @@ def rag_chat(query, chat_history,text):
         ("system", "You are an assistant for question-answering tasks."
                     "Use the following pieces of retrieved context to answer the question."
                     "If you don't know the answer, just say that you don't know."
-                    "Keep the answer concise."
+                    "Keep the answer concise and use language relevant to the context."
+                    "Finally, provide the context you used to answer and the Source info (e.g., page 3 of invoice.pdf)"
                     "{context}"),
         MessagesPlaceholder(variable_name="chat_history"),
         ("user", "{input}")

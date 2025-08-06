@@ -10,17 +10,16 @@ embeddings = HuggingFaceEmbeddings(
         )
 
 
-def preprocess_text(text):
+def preprocess_text(text: str):
     """Preprocess extracted text by cleaning lines"""
     if not text:
         return ""
     
-    text = re.sub(r'\s+', ' ', text)  # Replace multiple spaces with a single space
-    text = re.sub(r'\n+', '\n', text)  # Replace multiple newlines with a single newline
-    
+    # Strip each line and remove empty lines
     lines = text.splitlines()
-    cleaned_lines = []
+    cleaned_lines = []  
     
+    # Strip each line and remove empty lines
     for line in lines:
         cleaned_line = line.strip()
         if cleaned_line:  
@@ -35,7 +34,7 @@ def semantic_text_splitter(text):
     if not text:
         return []
     
-    text_splitter = SemanticChunker(embeddings)
+    text_splitter = SemanticChunker(embeddings, breakpoint_threshold_type="percentile")
 
     docs = text_splitter.create_documents([text])
 
