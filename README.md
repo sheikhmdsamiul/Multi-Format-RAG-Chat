@@ -13,8 +13,9 @@ Multi-Format-RAG-Chat is an AI-powered assistant that enables users to upload do
 
 ## Architecture
 
-- **Backend:** FastAPI REST API, LangChain, Groq LLM, HuggingFace models, FAISS vector store, OCR (pytesseract, bangla_pdf_ocr)
+- **Backend:** Modular FastAPI REST API, LangChain, Groq LLM, HuggingFace models, FAISS vector store, OCR (pytesseract, bangla_pdf_ocr)
 - **Frontend:** Streamlit app for user interaction
+- **Modular API:** Endpoints are organized in separate modules (e.g., `endpoints/chat.py`, `endpoints/upload_file.py`, `endpoints/home.py`) and included in the main FastAPI app using APIRouter for clarity and maintainability.
 
 ## Technical Implementation Details
 
@@ -79,6 +80,8 @@ Multi-Format-RAG-Chat is an AI-powered assistant that enables users to upload do
      GROQ_API_KEY=your_groq_api_key_here
      ```
 
+> **Important:** Run all commands from the project root directory to avoid import errors.
+
 ### Running the Application
 
 #### 1. Start the FastAPI Backend
@@ -117,9 +120,15 @@ Multi-Format-RAG-Chat/
 │   │   ├── process_vector_store.py  # Text preprocessing and vector store
 │   │   └── rag_chat.py              # RAG chat logic
 │   └── server/
-│       └── api.py           # FastAPI backend
-├── .env                     # Environment variables
-├── requirements.txt         # Python dependencies
+│       ├── api.py                   # Main FastAPI app, includes routers
+│       ├── endpoints/
+│       │   ├── chat.py              # RAG chat endpoint
+│       │   ├── upload_file.py       # File upload endpoint
+│       │   └── home.py              # Health check endpoint
+│       ├── schema.py                # Pydantic models for requests/responses
+│       └── session.py               # Session state management
+├── .env                             # Environment variables
+├── requirements.txt                 # Python dependencies
 └── README.md
 ```
 
@@ -183,32 +192,32 @@ Multi-Format-RAG-Chat/
 **Output:**
 >Answer: Gabriel Garcia Marquez is a novelist, short-story writer, and journalist widely considered the greatest living Latin American master of narrative.
 
-Supporting Context: "Gabriel Garcia Marquez was brought up by his grandparents in Northern Columbia because his parents were poor and struggling. A novelist, short-story writer and journalist, he is widely considered the greatest living Latin American master of narrative."
+>Supporting Context: "Gabriel Garcia Marquez was brought up by his grandparents in Northern Columbia because his parents were poor and struggling. A novelist, short-story writer and journalist, he is widely considered the greatest living Latin American master of narrative."
 
-Source: Page 2
+>Source: Page 2
 
-Confidence: High - The text directly states Marquez's profession and reputation, providing a clear and concise description of who he is.
+>Confidence: High - The text directly states Marquez's profession and reputation, providing a clear and concise description of who he is.
 
 **Query:** What was Pablo Neruda’s reaction to Frau Frieda’s dreams?
 **Output:**
 >Answer: Pablo Neruda did not believe in prophetic dreams, saying "Only poetry is clairvoyant."
 
-Supporting Context: "He paid no attention, for from the very beginning he had announced that he did not believe in prophetic dreams. 'Only poetry is clairvoyant,' he said."
+>Supporting Context: "He paid no attention, for from the very beginning he had announced that he did not believe in prophetic dreams. 'Only poetry is clairvoyant,' he said."
 
-Source: Page 7, "I Set my Dreams"
+>Source: Page 7, "I Set my Dreams"
 
-Confidence: High - The text directly quotes Neruda's statement, clearly indicating his skepticism towards Frau Frieda's dreams.
+>Confidence: High - The text directly quotes Neruda's statement, clearly indicating his skepticism towards Frau Frieda's dreams.
 
 ### Bangla
 **Query:** ফ্রাউ ফ্রিদা কীভাবে জীবিকা নির্বাহ করতেন এবং তিনি কেন নিজেকে বলেন ‘আমি স্বপ্ন বিক্রি করি’?
 **Output:**
 >Answer: ফ্রাউ ফ্রিদা তার স্বপ্নের ব্যাখ্যা দিয়ে জীবিকা নির্বাহ করতেন। তিনি ভিয়েনায় একটি পরিবারের জন্য কাজ করতেন, যেখানে তিনি প্রতিদিন সকালে তার স্বপ্নের মাধ্যমে পরিবারের সদস্যদের ভবিষ্যত সম্পর্কে বলতেন। তিনি নিজেকে বলেন 'আমি স্বপ্ন বিক্রি করি' কারণ তিনি তার স্বপ্নের ব্যাখ্যা দিয়ে অর্থ উপার্জন করতেন।
 
-Supporting Context: "In reality, that was her only trade. ... She looked for work at the first house where she would have liked to live, and when she was asked what she could do, she told only the truth: 'I dream.'"
+>Supporting Context: "In reality, that was her only trade. ... She looked for work at the first house where she would have liked to live, and when she was asked what she could do, she told only the truth: 'I dream.'"
 
-Source: Page5, "my Dreams"
+>Source: Page5, "my Dreams"
 
-Confidence: High - পাঠ্যটি স্পষ্টভাবে ফ্রাউ ফ্রিদার জীবিকা নির্বাহের উপায় এবং তার স্বপ্ন বিক্রির কারণ ব্যাখ্যা করে।
+>Confidence: High - পাঠ্যটি স্পষ্টভাবে ফ্রাউ ফ্রিদার জীবিকা নির্বাহের উপায় এবং তার স্বপ্ন বিক্রির কারণ ব্যাখ্যা করে।
 
 
 ## Dependencies
