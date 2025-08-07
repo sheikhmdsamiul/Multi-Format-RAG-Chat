@@ -19,6 +19,17 @@ if 'messages' not in st.session_state:
 
 # Helper functions
 def upload_file(file):
+    """
+    Upload a file to the backend API for processing.
+
+    Args:
+        file (UploadedFile): The file object selected by the user in Streamlit.
+
+    Returns:
+        tuple: (success (bool), response (dict or str))
+            - success: True if upload and processing succeeded, False otherwise.
+            - response: JSON response from the API if successful, or error message string.
+    """
     try:
         files = {"file": (file.name, file.getvalue(), file.type)}
         response = requests.post(f"{API_BASE_URL}/uploadfile", files=files)
@@ -27,6 +38,18 @@ def upload_file(file):
         return False, str(e)
 
 def send_message(query, session_id):
+    """
+    Send a chat message (and optional image) to the backend RAG chat API.
+
+    Args:
+        query (dict): The user query and optional image in base64 format.
+        session_id (str): The current chat session ID.
+
+    Returns:
+        tuple: (success (bool), response (dict or str))
+            - success: True if the chat request succeeded, False otherwise.
+            - response: JSON response from the API if successful, or error message string.
+    """
     try:
         payload = {"query": query, "session_id": session_id}
         response = requests.post(f"{API_BASE_URL}/rag_chat", json=payload)
