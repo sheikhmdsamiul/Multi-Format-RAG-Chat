@@ -30,8 +30,8 @@ class chatrequest(BaseModel):
     session_id: str
 
 # Health check endpoint to verify API is running
-@app.get("/test")
-async def test():
+@app.get("/")
+async def home():
     """Health check endpoint to verify API is running."""
     return {"message": "Welcome to the Document Processing API"}
 
