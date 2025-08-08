@@ -9,6 +9,7 @@ Multi-Format-RAG-Chat is an AI-powered assistant that enables users to upload do
 - **Retrieval-Augmented Generation (RAG):** Combines document retrieval with LLM-based answer generation for accurate, context-aware responses.
 - **Image-to-Text Chat:** Upload images as part of your query; the assistant extracts and incorporates image content into its answers.
 - **Session-based Chat:** Maintains chat history and context for each session (in-memory; not persistent across server restarts).
+- **File Metadata & Icons:** Upload response includes file name, type, and a file-type icon (e.g., 📄 for PDF, 🗄️ for SQLite DB).
 - **Modern UI:** Streamlit-based frontend for seamless document upload and chat experience.
 
 ## Architecture
@@ -134,6 +135,14 @@ Multi-Format-RAG-Chat/
 
 ## API Usage
 
+#### File-Type Icon Mapping
+The backend automatically assigns an icon to each uploaded file based on its extension:
+- `.pdf`, `.txt` → 📄
+- `.docx` → 📝
+- `.png`, `.jpg`, `.jpeg` → 🖼️
+- `.db`, `.sqlite` → 🗄️
+- (Other/unknown types) → 📁
+
 ### Health Check
 `GET /`
 ```json
@@ -150,6 +159,9 @@ Multi-Format-RAG-Chat/
 ```json
 {
   "message": "File processed successfully",
+  "filename": "example.pdf",
+  "filetype": "application/pdf",
+  "icon": "📄",
   "session_id": "<session-uuid>"
 }
 ```
