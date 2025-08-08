@@ -3,6 +3,9 @@ from pydantic import BaseModel, Field
 # Define the response model for the upload endpoint
 class UploadResponse(BaseModel):
     message: str
+    filename: str
+    filetype: str
+    icon: str
     session_id: str
 
 # Define the request model for the chat endpoint

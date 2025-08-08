@@ -6,12 +6,9 @@ from PIL import Image
 from pytesseract import image_to_string
 
 
-def extract_text_from_file(file_path: bytes):
+def extract_text_from_file(file_path: bytes, ext: str):
     if not os.path.exists(file_path):
         return "Error: File not found."
-
-    # Determine the file type based on the extension
-    ext = os.path.splitext(file_path)[1].lower()
 
     if ext == ".pdf":
         return extract_from_pdf(file_path)
