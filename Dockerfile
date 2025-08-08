@@ -25,5 +25,5 @@ EXPOSE 8000
 # Set environment variables (optional)
 ENV PYTHONUNBUFFERED=1
 
-# Start both FastAPI and Streamlit using supervisord
+
 CMD ["uvicorn", "main.server.api:app", "--host", "0.0.0.0", "--port", "8000"]
