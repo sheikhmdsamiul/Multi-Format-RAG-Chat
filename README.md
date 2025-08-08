@@ -101,10 +101,6 @@ pip install -r requirements.txt
 streamlit run main/frontend/app.py
 ```
 
-#### 5. Open the App
-- Visit [http://localhost:8501](http://localhost:8501) in your browser for the Streamlit UI.
-- The FastAPI backend will be available at [http://localhost:8000](http://localhost:8000).
-
 > **Note:** The Streamlit frontend communicates with the FastAPI backend at `http://localhost:8000`. Ensure both are running for full functionality.
 
 
