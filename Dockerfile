@@ -22,7 +22,7 @@ COPY . .
 # Expose FastAPI 
 EXPOSE 8000 
 
-# Set environment variables (optional)
+# Set environment variables
 ENV PYTHONUNBUFFERED=1
 
 
