@@ -59,44 +59,54 @@ Multi-Format-RAG-Chat is an AI-powered assistant that enables users to upload do
 - Python 3.8+
 - [Groq API Key](https://console.groq.com/)
 - [HuggingFace account](https://huggingface.co/) (for model downloads)
+- Docker (recommended for backend deployment)
 
-### Installation
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/sheikhmdsamiul/Multi-Format-RAG-Chat.git
-   cd Multi-Format-RAG-Chat
-   ```
-2. **Create and activate a virtual environment:**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-3. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. **Set up environment variables:**
-   - Create a `.env` file in the project root with your Groq API key:
-     ```env
-     GROQ_API_KEY=your_groq_api_key_here
-     ```
+### Quick Start
 
-> **Important:** Run all commands from the project root directory to avoid import errors.
-
-### Running the Application
-
-#### 1. Start the FastAPI Backend
+#### 1. Clone the repository:
 ```bash
-uvicorn main.server.api:app --reload
+git clone https://github.com/sheikhmdsamiul/Multi-Format-RAG-Chat.git
+cd Multi-Format-RAG-Chat
 ```
 
-#### 2. Launch the Streamlit Frontend
+#### 2. Set up environment variables:
+- Create a `.env` file in the project root with your Groq API key:
+  ```env
+  GROQ_API_KEY=your_groq_api_key_here
+  ```
+
+#### 3. Run the FastAPI backend (choose one):
+
+- **Option 1: Using the pre-built Docker image (recommended):**
+  ```sh
+  docker pull sheikhmdsamiul/multi-format-rag-chat-api
+  docker run -p 8000:8000 sheikhmdsamiul/multi-format-rag-chat-api
+  ```
+
+- **OR**
+
+- **Option 2: Run outside Docker (manual Python environment):**
+  ```sh
+  python -m venv venv
+  source venv/bin/activate  # On Windows: venv\Scripts\activate
+  pip install -r requirements.txt
+  bangla-pdf-ocr-setup
+  uvicorn main.server.api:app --reload
+  ```
+
+#### 4. Run the Streamlit frontend on your host (outside Docker):
+Make sure you have Python and the required dependencies installed on your host:
 ```bash
+pip install -r requirements.txt
 streamlit run main/frontend/app.py
 ```
 
-#### 3. Open the App
-- Visit [http://localhost:8501](http://localhost:8501) in your browser.
+#### 5. Open the App
+- Visit [http://localhost:8501](http://localhost:8501) in your browser for the Streamlit UI.
+- The FastAPI backend will be available at [http://localhost:8000](http://localhost:8000).
+
+> **Note:** The Streamlit frontend communicates with the FastAPI backend at `http://localhost:8000`. Ensure both are running for full functionality.
+
 
 ## Usage
 1. **Upload a Document:**
@@ -130,6 +140,7 @@ Multi-Format-RAG-Chat/
 │       └── session.py               # Session state management
 ├── .env                             # Environment variables
 ├── requirements.txt                 # Python dependencies
+├── Dockerfile                       # Docker build file for backend
 └── README.md
 ```
 
@@ -147,7 +158,7 @@ The backend automatically assigns an icon to each uploaded file based on its ext
 `GET /`
 ```json
 {
-  "message": "Welcome to the Document Processing API"
+  "message": "Welcome to the Multi-Format-RAG-Chat API"
 }
 ```
 
@@ -223,7 +234,7 @@ The backend automatically assigns an icon to each uploaded file based on its ext
 ### Bangla
 **Query:** ফ্রাউ ফ্রিদা কীভাবে জীবিকা নির্বাহ করতেন এবং তিনি কেন নিজেকে বলেন ‘আমি স্বপ্ন বিক্রি করি’?
 **Output:**
->Answer: ফ্রাউ ফ্রিদা তার স্বপ্নের ব্যাখ্যা দিয়ে জীবিকা নির্বাহ করতেন। তিনি ভিয়েনায় একটি পরিবারের জন্য কাজ করতেন, যেখানে তিনি প্রতিদিন সকালে তার স্বপ্নের মাধ্যমে পরিবারের সদস্যদের ভবিষ্যত সম্পর্কে বলতেন। তিনি নিজেকে বলেন 'আমি স্বপ্ন বিক্রি করি' কারণ তিনি তার স্বপ্নের ব্যাখ্যা দিয়ে অর্থ উপার্জন করতেন।
+>Answer: ফ্রাউ ফ্রিদা তার স্বপ্নের ব্যাখ্যা দিয়ে জীবিকা নির্বাহ করতেন। তিনি ভিয়েনায় একটি প���িবারের জন্য কাজ করতেন, যেখানে তিনি প্রতিদিন সকালে তার স্বপ্নের মাধ্যমে পরিবারের সদস্যদের ভবিষ্যত সম্পর্কে বলতেন। তিনি নিজেকে বলেন 'আমি স্বপ্ন বিক্রি করি' কারণ তিনি তার স্বপ্নের ব্যাখ্যা দিয়ে অর্থ উপার্জন করতেন।
 
 >Supporting Context: "In reality, that was her only trade. ... She looked for work at the first house where she would have liked to live, and when she was asked what she could do, she told only the truth: 'I dream.'"
 
@@ -244,6 +255,7 @@ The backend automatically assigns an icon to each uploaded file based on its ext
 - python-docx
 - requests
 - python-dotenv
+- Docker
 
 ## Acknowledgements
 - [LangChain](https://github.com/langchain-ai/langchain)
@@ -254,4 +266,3 @@ The backend automatically assigns an icon to each uploaded file based on its ext
 - [pytesseract](https://github.com/madmaze/pytesseract)
 
 ---
-
